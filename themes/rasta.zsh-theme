@@ -60,9 +60,10 @@ prompt_info () {
     return 0
 }
 
-PROMPT='['\
-'%{$fg[green]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%} '\
-'%{$fg[red]%}%c%{$reset_color%}$(prompt_info)%{$reset_color%}]$ '
+# emojis: 👽👾😈💀🤯😎
+PROMPT=''\
+'👽 %{$fg[green]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%} '\
+'%{$fg[red]%}%c%{$reset_color%}$(prompt_info)%{$reset_color%} ᐵ '
 
 ZSH_THEME_GIT_PROMPT_PREFIX="(%{$fg_bold[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
