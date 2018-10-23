@@ -62,12 +62,12 @@ prompt_info () {
 
 # emojis: 👽👾😈💀🤯😎
 PROMPT=''\
-'👽 %{$fg[green]%}%n%{$reset_color%}@%{$fg[yellow]%}%m%{$reset_color%} '\
-'%{$fg[red]%}%c%{$reset_color%}$(prompt_info)%{$reset_color%} ᐵ '
+'👽 %{$fg[red]%}%n%{$reset_color%}@%{$fg[black]%}%m%{$reset_color%} '\
+'%{$fg[green]%}%c%{$reset_color%}$(prompt_info)%{$reset_color%} ᐵ '
 
-ZSH_THEME_GIT_PROMPT_PREFIX="(%{$fg_bold[green]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="(%{$fg_bold[cyan]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX=")"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%} %{$fg_bold[red]%}✗%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[cyan]%} %{$fg_bold[red]%}✗%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}"
 
 ZSH_THEME_VIRTUALENV_PREFIX="{%{$fg_bold[yellow]%}"
