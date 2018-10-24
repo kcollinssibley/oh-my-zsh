@@ -1,4 +1,4 @@
-# Copyright (c) 2016 Matt Pelland (matt@pelland.io)
+# Copyright (c) 2018 Kofi Collins-Sibley (colko818@gmail.com)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -18,38 +18,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-ZSH_THEME_NVM_PREFIX="{%{$fg_bold[yellow]%}"
-ZSH_THEME_NVM_SUFFIX="%{$reset_color%}}"
-
-nvm_prompt_info () {
-    if [ ${ZSH_THEME_ENABLE_NVM_PROMPT:=0} -eq 0 ]; then
-        echo ""
-        return 0
-    fi
-
-    which "nvm" > /dev/null 2>&1
-
-    if [ $? -ne 0 ]; then
-        echo ""
-        return 0
-    fi
-
-    local NVM_CURRENT="$(nvm current)"
-
-    if [[ "$NVM_CURRENT" != "system" ]]; then
-        echo "${ZSH_THEME_NVM_PREFIX:=[}${NVM_CURRENT}${ZSH_THEME_NVM_SUFFIX:=]}"
-        return 0
-    fi
-
-    echo ""
-    return 0
-}
-
 prompt_info () {
-    local PROMPT_INFO="$(git_prompt_info)"
-    PROMPT_INFO="${PROMPT_INFO}$(virtualenv_prompt_info)"
-    PROMPT_INFO="${PROMPT_INFO}$(nvm_prompt_info)"
-    PROMPT_INFO="${PROMPT_INFO}$(vi_mode_prompt_info)"
+    local PROMPT_INFO
+    local GIT_INFO="$(git_prompt_info)"
+    local VENV_INFO="$(virtualenv_prompt_info)"
+    
+    if [[ "x${GIT_INFO}" != "x" ]]; then
+        local GIT_STATUS="$(git_prompt_status)"
+        local GIT_REMOTE="$(git_remote_status)"
+
+        PROMPT_INFO="${PROMPT_INFO}${GIT_INFO}"
+        
+        if [[ "x${GIT_STATUS}" != "x" ]]; then
+            PROMPT_INFO="${PROMPT_INFO}|${GIT_STATUS}"
+        fi
+        
+        if [[ "x${GIT_REMOTE}" != "x" ]]; then
+            PROMPT_INFO="${PROMPT_INFO}|${GIT_REMOTE}"
+        fi
+    fi
+
+    if [[ "x${VENV_INFO}" != "x" ]]; then
+        PROMPT_INFO="${PROMPT_INFO}${VENV_INFO}"
+    fi
 
     if [[ "x${PROMPT_INFO}" != "x" ]]; then
         echo " ${PROMPT_INFO}"
@@ -62,14 +53,29 @@ prompt_info () {
 
 # emojis: 👽👾😈💀🤯😎
 PROMPT=''\
-'👽 %{$fg[red]%}%n%{$reset_color%}@%{$fg[black]%}%m%{$reset_color%} '\
+'👽 %{$fg[red]%}%n%{$reset_color%}@%{$fg_bold[black]%}%m%{$reset_color%} '\
 '%{$fg[green]%}%c%{$reset_color%}$(prompt_info)%{$reset_color%} ᐵ '
 
+# GIT_INFO
 ZSH_THEME_GIT_PROMPT_PREFIX="(%{$fg_bold[cyan]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX=")"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[cyan]%} %{$fg_bold[red]%}✗%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_colors%})"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg_bold[red]%}✗%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}✔%{$reset_color%}"
 
+# GIT_STATUS
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✚ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[yellow]%}⚑ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✖ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[blue]%}▴ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[cyan]%}§ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[white]%}◒ %{$reset_color%}"
+
+# GIT_REMOTE
+ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE="%{$fg_bold[magenta]%}⇃%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE="%{$fg_bold[magenta]%}↿%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE="%{$fg_bold[magenta]%}⇌%{$reset_color%}"
+
+# VENV_INFO
 ZSH_THEME_VIRTUALENV_PREFIX="{%{$fg_bold[yellow]%}"
 ZSH_THEME_VIRTUALENV_SUFFIX="%{$reset_color%}}"
 
