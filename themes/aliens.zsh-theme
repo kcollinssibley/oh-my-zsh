@@ -22,20 +22,20 @@ prompt_info () {
     local PROMPT_INFO
     local GIT_INFO="$(git_prompt_info)"
     local VENV_INFO="$(virtualenv_prompt_info)"
-    
+
     if [[ "x${GIT_INFO}" != "x" ]]; then
-        local GIT_STATUS="$(git_prompt_status)"
-        local GIT_REMOTE="$(git_remote_status)"
+        #local GIT_STATUS="$(git_prompt_status)"
+        #local GIT_REMOTE="$(git_remote_status)"
 
         PROMPT_INFO="${PROMPT_INFO}${GIT_INFO}"
-        
-        if [[ "x${GIT_STATUS}" != "x" ]]; then
-            PROMPT_INFO="${PROMPT_INFO}|${GIT_STATUS}"
-        fi
-        
-        if [[ "x${GIT_REMOTE}" != "x" ]]; then
-            PROMPT_INFO="${PROMPT_INFO}|${GIT_REMOTE}"
-        fi
+
+        #if [[ "x${GIT_STATUS}" != "x" ]]; then
+        #    PROMPT_INFO="${PROMPT_INFO}|${GIT_STATUS}|"
+        #fi
+
+        #if [[ "x${GIT_REMOTE}" != "x" ]]; then
+        #    PROMPT_INFO="${PROMPT_INFO}|${GIT_REMOTE}|"
+        #fi
     fi
 
     if [[ "x${VENV_INFO}" != "x" ]]; then
